@@ -1,0 +1,3 @@
+It's a python code created by Ramy Reda
+#You need to get the access log file and rename it --> access_log.txt
+The code extract all ips , URIs , user agents and method used in the file and extract them in text files
