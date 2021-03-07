@@ -64,7 +64,7 @@ for page_number in range(1,50000):
         if PhoneCheck(Tel):
             Trace=json_req["seller"]["isTradeSeller"]
             Name=json_req["seller"]["name"]
-            row = [Tel,Trace,name]
+            row = [Tel,Trace,Name]
             csvwriter.writerow(row)
 car_links.close()
 csvfile.close()
