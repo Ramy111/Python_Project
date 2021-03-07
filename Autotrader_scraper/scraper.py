@@ -51,7 +51,7 @@ for page_number in range(1,50000):
         print("File is not found!")
         exit()
     lines = car_link.readlines()
-    fields = ["Number","isTradeSeller","isPrivateSeller"]
+    fields = ["Number","isTradeSeller","Name"]
     csvfile = open("csvfile.csv",'w')
     csvwriter = csv.writer(csvfile)
     csvwriter.writerow(fields)
@@ -61,12 +61,10 @@ for page_number in range(1,50000):
         req=requests.get(json_url+carPage,headers=headers2)
         json_req=req.json()
         Tel=json_req["seller"]["primaryContactNumber"]
-        Prace = 'True'
         if PhoneCheck(Tel):
             Trace=json_req["seller"]["isTradeSeller"]
-            if Trace == True:
-                Prace = 'False'
-            row = [Tel,Trace,Prace]
+            Name=json_req["seller"]["name"]
+            row = [Tel,Trace,name]
             csvwriter.writerow(row)
 car_links.close()
 csvfile.close()
