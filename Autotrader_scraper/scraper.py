@@ -20,10 +20,14 @@ header = {
     }
 url = 'https://www.autotrader.co.uk/car-search?advertClassification=standard&postcode=E113LD&onesearchad=Used&onesearchad=Nearly%20New&onesearchad=New&advertising-location=at_cars&is-quick-search=TRUE&include-delivery-option=on&page='
 for page_number in range(1,50000):
-    request = requests.get(url+str(page_number),headers=header)
-    data = request.text
-    soup = BeautifulSoup(data,features="html.parser")
-    links = soup.find_all("a", class_="js-click-handler listing-fpa-link tracking-standard-link")
+    try:
+        request = requests.get(url+str(page_number),headers=header)
+        data = request.text
+        soup = BeautifulSoup(data,features="html.parser")
+        links = soup.find_all("a", class_="js-click-handler listing-fpa-link tracking-standard-link")
+    except requests.exceptions.ConnectionError:
+        print("Server is down or Check your internet")
+        exit()
     car_links=open('car_links.txt','w+')
     for i in links:
         link = i.attrs['href']
@@ -41,7 +45,11 @@ for page_number in range(1,50000):
         'Cookie': '__cfduid=d7cf8cc2f0f145fdcecd6be0063afd6f31615016257; abtcid=16a0c5fa_8aec_496e_9ff0_552521f74cfc; userid=ID=85629498-3f76-45e4-a3b0-cd2725011cc7; user=STATUS=0&HASH=5a31ff484efb556910f8a61c2ba6bca9&PR=&ID=85629498-3f76-45e4-a3b0-cd2725011cc7; GeoLocation=Town=&Northing=&Latitude=51.556568272&Easting=&A'
     }
     car_links.close()
-    car_link = open("car_links.txt",'r')
+    try:
+        car_link = open("car_links.txt",'r')
+    except FileNotFoundError:
+        print("File is not found!")
+        exit()
     lines = car_link.readlines()
     fields = ["Number","isTradeSeller","isPrivateSeller"]
     csvfile = open("csvfile.csv",'w')
